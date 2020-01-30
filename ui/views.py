@@ -23,3 +23,6 @@ def index(request):
 def uilogout(request):
     logout(request)
     return render(request, 'ui/index.html')
+
+def test(request):
+    return render(request,"ui/index_vivek.html")
