@@ -3,7 +3,7 @@ Setting up the project
 
 - Git clone to desktop - https://github.com/bangalorebyte-cohort30-1912/crmbackend.git
 
-- Setting up Environment (ensaure pipenv in installed) at the root of the project (where pipfile is..)
+- Setting up Environment (ensure pipenv is installed) at the root of the project (where pipfile is..)
 
 ```python
 pipenv install
