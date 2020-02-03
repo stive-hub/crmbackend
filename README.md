@@ -6,11 +6,11 @@ Setting up the project
 - Setting up Environment (ensaure pipenv in installed) at the root of the project (where pipfile is..)
 
 ```python
-$ pipenv install
-$ pipenv shell
-$ python manage.py makemigrations
-$ python manage.py migrate
-$ python manage.py runserver
+pipenv install
+pipenv shell
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
 ```
 - In the browser Open localhost:8000
   
