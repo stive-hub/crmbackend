@@ -43,13 +43,14 @@ INSTALLED_APPS = [
     'ui',
     'rest_framework',
     'social_django',
+    'mailengine'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -72,6 +73,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'crmtest.wsgi.application'
 
@@ -136,7 +138,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
 AUTH_USER_MODEL = 'salespersons.SalesPersonUser'
+
+# EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = 'tempbytedeveloper@gmail.com'
@@ -147,6 +161,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'tempbytedeveloper@gmail.com'
 EMAIL_HOST_PASSWORD = 'rmsvhcofgzspmose'
 EMAIL_PORT = 587
+EMAIL_RECIPIENTS_LIST = ['jithinjkumar@gmail.com','aditya.teng@byteacademy.co']
 
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
@@ -161,5 +176,19 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+CELERY_BROKER_URL ='redis://h:p6b6b2dcac7f36b8bc263229a003097d32045573c16f3bcd9ed1ce213b47e6ec9@ec2-35-173-24-245.compute-1.amazonaws.com:17179/0'
+CELERY_RESULT_BACKEND = 'redis://h:p6b6b2dcac7f36b8bc263229a003097d32045573c16f3bcd9ed1ce213b47e6ec9@ec2-35-173-24-245.compute-1.amazonaws.com:17179/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+
+CACHES = {
+    "default": {
+        "BACKEND": "redis_cache.RedisCache",
+        "LOCATION": "redis://h:p6b6b2dcac7f36b8bc263229a003097d32045573c16f3bcd9ed1ce213b47e6ec9@ec2-35-173-24-245.compute-1.amazonaws.com:17179",
+    }
+}
 
 django_heroku.settings(locals())

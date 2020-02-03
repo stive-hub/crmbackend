@@ -11,6 +11,9 @@ djangorestframework = "*"
 django-heroku = "*"
 django-toolbelt = "*"
 social-auth-app-django = "*"
+celery = {extras = ["redis"],version = "*"}
+django-redis-cache = "*"
+django-celery-email = "*"
 
 [requires]
 python_version = "*"

@@ -13,10 +13,10 @@ LEAD_SOURCE = (
 )
 
 LEAD_STATUS = (
-    ('not updated', 'Not Updated'),
-    ('BD call', 'BD Call'),
-    ('meeting', 'Meeting'),
-    ('proposal', 'Proposal')
+    ('Not Updated', 'Not Updated'),
+    ('BD Call', 'BD Call'),
+    ('Meeting', 'Meeting'),
+    ('Proposal', 'Proposal')
 )
 
 ROLE = (
@@ -34,29 +34,45 @@ ENQUIRY_TYPE = (
 )
 
 
+class LeadStage(models.Model):
+    name = models.CharField("Name", max_length=255)
+    followup_wait = models.BigIntegerField(default=2)
+    escalation_wait = models.BigIntegerField(default=2)
+
+    def __str__(self):
+        return f"Lead Stage {self.name} with follow up delay {self.followup_wait} and escalation {self.escalation_wait} setup."
+
+
 class Lead(models.Model):
     first_name = models.CharField("First name", max_length=255)
     last_name = models.CharField("Last name", max_length=255)
     type_of_enquiry = models.CharField("Type of Enquiry", max_length=255, choices=ENQUIRY_TYPE, default='Sales Enquiry', null=True)
-    company = models.CharField("Company", max_length=255, null=True)
+    company = models.CharField("Company", max_length=255, null=True, blank=True)
     email = models.EmailField()
-    phone = models.CharField(max_length=20, null=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
     role = models.CharField("Role", max_length=60, choices=ROLE, default='Business Owner/Leader')
-    message = models.TextField(null=True)
+    message = models.TextField(null=True, blank=True)
     positions_to_fill = models.BigIntegerField(default=10)
-    service_requirements = models.CharField(max_length=100000, null=True)
-    loc_of_hire = models.CharField(max_length=100000, null=True)
-    industry = models.CharField(max_length=100000, null=True)
+    service_requirements = models.CharField(
+        max_length=100000, null=True, blank=True)
+    loc_of_hire = models.CharField(max_length=100000, null=True, blank=True)
+    industry = models.CharField(max_length=100000, null=True, blank=True)
     comp_emp_strength = models.BigIntegerField(default=1)
-    form_submission_time = models.CharField(max_length=100000, null=True)
-    form_type = models.CharField(max_length=100000, null=True)
-    status = models.CharField("Status of Lead", max_length=255,
-                              blank=True, null=True, choices=LEAD_STATUS, default="not updated")
+    form_submission_time = models.CharField(
+        max_length=100000, null=True, blank=True)
+    form_type = models.CharField(max_length=100000, null=True, blank=True)
+    # status = models.CharField("Status of Lead", max_length=255,
+    #                           blank=True, null=True, choices=LEAD_STATUS, default="not updated")
+    status = models.ForeignKey(LeadStage, on_delete=models.DO_NOTHING,
+                               default=1, related_name='lead_leadstage')
     source = models.CharField("Source of Lead", max_length=255,
                               blank=True, null=True, choices=LEAD_SOURCE, default="website")
     assigned_to = models.ManyToManyField(
-        SalesPersonUser, related_name='lead_assigned_salespersonusers', default=1)
+        SalesPersonUser, related_name='lead_assigned_salespersonusers')
     createdOn = models.DateTimeField("Created on", auto_now_add=True)
 
     def __str__(self):
         return f"{self.email} with {self.first_name} {self.last_name}"
+
+
+

@@ -16,8 +16,7 @@ class SalesPersonUser(AbstractBaseUser, PermissionsMixin, models.Model):
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(('date joined'), auto_now_add=True)
     role = models.CharField(max_length=50, choices=ROLES)
-    manager = models.ForeignKey(
-        'self', null=True, related_name="salesperson", on_delete=models.DO_NOTHING)
+    manager = models.ForeignKey('self', null=True, related_name="salesperson", on_delete=models.DO_NOTHING)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', ]

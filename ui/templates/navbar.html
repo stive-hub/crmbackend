@@ -1,0 +1,22 @@
+{% block navbar %}
+<nav class="navbar navbar-randstad text-light" >
+    {% load static%}
+    <div>
+        <img src="{% static 'logo.jpg' %}" alt="" height=50>
+    </div>
+    <div>
+        <h2 class="text-center mt-3 mr-4"> Byte CRM </h2>
+    </div>
+    {% if user.is_authenticated %}
+    <div>
+        <h3>Hi, {{ user.first_name }}</h3>
+        <a type="button" class="btn btn-randstad" href="/logout">Logout</a>
+    </div>
+    {% else %}
+    <div>
+        Welcome <h2>Stranger,</h2>
+    </div>
+    {% endif %}
+
+</nav>
+{% endblock %}

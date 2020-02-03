@@ -13,6 +13,7 @@ def index(request):
             queryset = Lead.objects.all()
         else:
             user = SalesPersonUser.objects.filter(email=request.user).first()
+            print(user.id)
             queryset = Lead.objects.filter(assigned_to=user.id)
     except:
         pass
@@ -23,6 +24,3 @@ def index(request):
 def uilogout(request):
     logout(request)
     return render(request, 'ui/index.html')
-
-def test(request):
-    return render(request,"ui/index_vivek.html")
