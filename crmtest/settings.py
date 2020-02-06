@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'salespersons',
     'ui',
     'rest_framework',
-    'social_django',
+    'social_django', #for google login
     'mailengine'
 ]
 
