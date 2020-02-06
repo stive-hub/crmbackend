@@ -31,3 +31,6 @@ $(document).ready(function () {
         $("#myModal").modal();
     });
 });
+$(document).ready(function() {
+    $('#example').DataTable();
+} );

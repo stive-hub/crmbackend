@@ -11,14 +11,16 @@
         </p>
     </div>
     
-    <div class="container">
-        <div class="table-responsive">
-            <table class="table table-hover">
+    <div class="container" style="margin-bottom:30px">
+       
+           <table id="example" class="table table-hover " > 
                 <thead class="thead-randstad text-center">
-                    <tr>
-                        <th scope="col">#</th>
+                    <tr style="font-size:10px">
+                        <th scope="col" >#</th>
+                        <th scope="col">Form submission time</th>
                         <th scope="col">First Name</th>
                         <th scope="col">Last Name</th>
+                        <th scope="col">status</th>
                         <th scope="col">Type of Enquiry</th>
                         <th scope="col">Email</th>
                         <th scope="col">Action</th>
@@ -29,10 +31,13 @@
                 </thead>
                 <tbody class="text-center">
                     {% for lead in Leads %}
-                        <tr>                        
+                    
+                        <tr style="font-size:10px">                        
                             <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ lead.form_submission_time  }}</td>
                             <td>{{ lead.first_name  }}</td>
                             <td>{{ lead.last_name  }}</td>
+                             <td>{{ lead.status.name  }}</td>
                             <td>{{ lead.type_of_enquiry }}</td>
                             <td>{{ lead.email }}</td>
                             <td><button type="button" class="btn btn-sm btn-randstad lead-detail" id="{{ lead.id }}">View Details</button></td>
@@ -42,8 +47,11 @@
                         </tr>
                     {% endfor %}
                 </tbody>
+                <tfoot>
+               
+                </tfoot>
             </table>
-        </div>
+        
     </div>
     {% else %}
     <div class="jumbotron jumbotron-fluid">

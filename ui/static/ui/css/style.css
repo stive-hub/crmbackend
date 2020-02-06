@@ -19,6 +19,8 @@
     color: white;
 }
 
+
+
 #footer.footer-center{
     text-align: center;
 }
@@ -31,3 +33,4 @@ body {
     display: grid;
     grid-template-rows: auto 1fr auto;
 }
+
