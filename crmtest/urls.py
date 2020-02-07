@@ -21,7 +21,7 @@ from rest_framework import routers
 from leads.views import LeadModelView
 from salespersons.views import SalesPersonUserModelView
 
-from leads.views import LeadModelView, reassign
+from leads.views import LeadModelView
 from mailengine.views import celerytest
 
 router = routers.SimpleRouter()
@@ -33,6 +33,6 @@ urlpatterns = [
     path('', include('ui.urls')),
     path('', include('social_django.urls', namespace='social')),
     path('', include(router.urls)),
-    path('leads/<int:pk>/reassign', reassign, name='reassign' ),
-    path('test', celerytest, name='celerytest')
+    # path('leads/<int:pk>/reassign', reassign, name='reassign' ),
+    # path('test', celerytest, name='celerytest')
 ]

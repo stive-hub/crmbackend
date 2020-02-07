@@ -13,7 +13,6 @@ def index(request):
             queryset = Lead.objects.all()
         else:
             user = SalesPersonUser.objects.filter(email=request.user).first()
-            print(user.id)
             queryset = Lead.objects.filter(assigned_to=user.id)
     except:
         pass

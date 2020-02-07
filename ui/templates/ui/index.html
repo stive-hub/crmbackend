@@ -11,47 +11,47 @@
         </p>
     </div>
     
-    <div class="container" style="margin-bottom:30px">
-       
-           <table id="example" class="table table-hover " > 
-                <thead class="thead-randstad text-center">
-                    <tr style="font-size:10px">
-                        <th scope="col" >#</th>
-                        <th scope="col">Form submission time</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">status</th>
-                        <th scope="col">Type of Enquiry</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Action</th>
-                        {% if user.is_superuser %}
-                        <th scope="col">Reassign</th>
-                        {% endif %}
-                    </tr>
-                </thead>
-                <tbody class="text-center">
-                    {% for lead in Leads %}
-                    
-                        <tr style="font-size:10px">                        
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{ lead.form_submission_time  }}</td>
-                            <td>{{ lead.first_name  }}</td>
-                            <td>{{ lead.last_name  }}</td>
-                             <td>{{ lead.status.name  }}</td>
-                            <td>{{ lead.type_of_enquiry }}</td>
-                            <td>{{ lead.email }}</td>
-                            <td><button type="button" class="btn btn-sm btn-randstad lead-detail" id="{{ lead.id }}">View Details</button></td>
-                            {% if user.is_superuser %}
-                            <td><button type="button" class="btn btn-sm btn-randstad-yellow center" onclick="reAssign(this)" id="1" data-toggle="modal" data-target="#exampleModal">Reassign</button></td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-                <tfoot>
-               
-                </tfoot>
-            </table>
-        
+    <div class="container pb-5">       
+        <table id="example" class="table table-hover " > 
+            <thead class="thead-randstad text-center">
+                <tr style="font-size:.75em">
+                    <th scope="col" >#</th>
+                    <th scope="col">Form submission time</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Current Status</th>
+                    <th scope="col">Type of Enquiry</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Action</th>
+                    {% if user.is_superuser %}
+                    <th scope="col">Reassign</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody class="text-center">
+            {% for lead in Leads %}                    
+            <tr style="font-size:.8em">                        
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ lead.form_submission_time  }}</td>
+                <td>{{ lead.first_name  }}</td>
+                <td>{{ lead.last_name  }}</td>
+                <td>{{ lead.status.name  }}</td>
+                <td>{{ lead.type_of_enquiry }}</td>
+                <td>{{ lead.email }}</td>
+                <td><button type="button" class="btn btn-sm btn-randstad lead-detail" id="{{ lead.id }}">View Details</button></td>
+                {% if user.is_superuser %}
+                <td><button type="button" class="btn btn-sm btn-randstad-yellow center lead-reassign" id="{{ lead.id }}">Reassign</button></td>
+                {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            
+            </tfoot>
+        </table>
+        <div class="container">
+
+        </div>      
     </div>
     {% else %}
     <div class="jumbotron jumbotron-fluid">
@@ -67,35 +67,66 @@
     
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-        
+        <div class="modal-dialog mw-100 w-75">        
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header modal-randstad">                    
                     <h4 class="modal-title">Lead Information</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col lead-data">
-                        
+                        <div class="col m-3">
+                            <p> First Name </p>
+                            <p> Last Name  </p>
+                            <p> Type of Enquiry  </p>
+                            <p> Company  </p>
+                            <p> Email  </p>
+                            <p> Phone  </p>
+                            <p> Number of Positions  </p>
+                            <p> Service Requirements  </p>
+                            <p> Location of Hire  </p>
+                            <p> Industry  </p>
+                            <p> Company Enployee Strength  </p>
+                            <p> Form Submission Time  </p>
+                            <p> Form Type  </p> 
                         </div>
-                        <div class="col lead-form">
-                            2 of 2
+                        <div class="col m-3 lead-data">
+                        </div>
+                        <div class="col m-3 lead-form">
+                            <form action=get_action() id="changeStatusForm" method="PATCH">
+                            <h5>Current Lead Status : <span class="btn btn-randstad-yellow" id="leadStatus"></span></h5>
+                            <select class="custom-select" id="status">
+                                    <option selected id="currentStatus" disabled></option>
+                                    <option value="1">BD Call</option>
+                                    <option value="2">Meeting</option>
+                                    <option value="3">Proposal</option>
+                            </select>
+                            <input type="submit" value="Change Status"  onClick="sendNewStatus" class="btn btn-randstad m-4">
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        
+            </div>        
         </div>
     </div>
-    
+
+    <div class="modal fade" id="reassign-modal" role="dialog">
+        <div class="modal-dialog mw-100 w-50">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-randstad">
+                    <h4 class="modal-title">Lead Reassign</h4>
+
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-
+</div>
 {% endblock body %}
 {% include 'footer.html' %}

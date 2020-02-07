@@ -7,30 +7,44 @@ function reAssign(lead) {
 
 // function to display lead information in a modal
 $(document).ready(function () {
+    $('#example').DataTable();
     $(".lead-detail").click(function () {
-        console.log(` ${this.id}`)
         fetch(`/leads/${this.id}`)
             .then((response) => {
                 return response.json();
             })
             .then((leadjson) => {
-                var leadData = `<p>First Name : <strong>${leadjson.first_name}</strong></p>
-                <p>Last Name : <strong>${leadjson.last_name}</strong></p> <p>Type of Enquiry : <strong>${leadjson.type_of_enquiry}</strong></p><p> Company : <strong>${leadjson.company}</strong></p><p> Email : <strong>${leadjson.email}</strong></p><p> Phone : <strong>${leadjson.phone}</strong></p><p> Number of Positions to fill : <strong>${leadjson.positions_to_fill}</strong></p><p>Service Requirements : <strong>${leadjson.service_requirements}</strong></p><p> Location of Hire : <strong>${leadjson.loc_of_hire}</strong></p><p> Industry : <strong>${leadjson.industry}</strong></p><p> Company Employee Strength : <strong>${leadjson.comp_emp_strength}</strong></p><p> Form Submission Time : <strong>${leadjson.form_submission_time}</strong></p><p> Form Type : <strong>${leadjson.form_type }</strong></p>`
+                var leadData = `<p>: <strong>${leadjson.first_name}</strong></p>
+                <p>: <strong>${leadjson.last_name}</strong></p> <p> : <strong>${leadjson.type_of_enquiry}</strong></p><p> : <strong>${leadjson.company}</strong></p><p>: <strong>${leadjson.email}</strong></p><p> : <strong>${leadjson.phone}</strong></p><p>: <strong>${leadjson.positions_to_fill}</strong></p><p>: <strong>${leadjson.service_requirements}</strong></p><p>: <strong>${leadjson.loc_of_hire}</strong></p><p>: <strong>${leadjson.industry}</strong></p><p>: <strong>${leadjson.comp_emp_strength}</strong></p><p>: <strong>${leadjson.form_submission_time}</strong></p><p>: <strong>${leadjson.form_type }</strong></p>`
                 $(".lead-data").html(leadData)
+                var leadStatus = leadjson.status.name
+                $('#leadStatus').text(leadStatus)
+                $('#currentStatus').text(leadStatus)
+                $('#changeStatusForm').attr('action', `leads/${this.id}`);
 
-                var leadForm = `<form><label>Current Lead Status :</label>
-                <select class="form-control" id="leadstatus">
-                  <option>${leadjson.status.name}</option>
-                  <option>Not Updated</option>
-                  <option>Meeting</option>
-                  <option>Proposal</option>
-                </select></form>`
-                $(".lead-form").html(leadForm)
+
+                console.log($('#status').val())
+                // const data = { status: `${$('#status').val()}` };
+
+                fetch(`/leads/${this.id}`, {
+                    method: 'PATCH', // or 'PUT'
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log('Success:', data);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
             });
         
         $("#myModal").modal();
     });
+    $(".lead-reassign").click(function () {
+        console.log(`reassign : ${this.id}`)
+    })
 });
-$(document).ready(function() {
-    $('#example').DataTable();
-} );
