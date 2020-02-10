@@ -61,10 +61,10 @@ class Lead(models.Model):
     form_submission_time = models.CharField(
         max_length=100000, null=True, blank=True)
     form_type = models.CharField(max_length=100000, null=True, blank=True)
-    # status = models.CharField("Status of Lead", max_length=255,
-    #                           blank=True, null=True, choices=LEAD_STATUS, default="not updated")
-    status = models.ForeignKey(LeadStage, on_delete=models.DO_NOTHING,
-                               default=1, related_name='lead_leadstage')
+    status = models.CharField("Status of Lead", max_length=255,
+                              blank=True, null=True, choices=LEAD_STATUS, default="not updated")
+    # status = models.ForeignKey(LeadStage, on_delete=models.DO_NOTHING,
+    #                            default=1, related_name='lead_leadstage')
     source = models.CharField("Source of Lead", max_length=255,
                               blank=True, null=True, choices=LEAD_SOURCE, default="website")
     assigned_to = models.ManyToManyField(
